@@ -1,13 +1,13 @@
 const express = require('express');
 const router = express.Router();
 
-const TaskModel = require("./models/taskModel.js")
+const TaskModel = require("../models/taskModel.js")
 
 //Middleware para validar metodos PUT y POST
 
 router.use((req, res, next) => {
 
-  if ((req.method === 'POST' || req.method === 'PUT') && Object.keys(req.body).length == 0) {
+  if ((req.method === 'POST') && Object.keys(req.body).length == 0) {
     // Cuerpo vacío en solicitudes POST y PUT
     return res.status(400).json({ error: 'Cuerpo de solicitud vacío' });
   }
@@ -31,7 +31,7 @@ router.post('/tarea', async (req, res) => {
     
 });
 
-// Ruta para marcar una tarea como completada en la base de datos
+// Ruta para marcar una tarea como completa o incompleta en la base de datos
 router.put('/tarea/:id', async (req, res) => {
   const tareaId = req.params.id;
   const estado = req.body.estado
