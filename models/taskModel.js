@@ -1,17 +1,16 @@
 const mongoose = require('mongoose')
 const {model, Schema} = mongoose
 
+//Esquema para los documentos de tareas
+
 const taskSchema = new Schema({
-    descripcion: String,
-    estado: Boolean
-});
+    descripcion: {type: String, required: [true, 'La descripcion es necesaria']},
+    estado: { type: Boolean, default: false },
+    fechaCreacion: { type: Date, default: Date.now }
+},{versionKey:false});
 
-taskSchema.set('toJSON', {
-    transform: (document, returnedObject) => {
-        delete returnedObject.__v
-    }
-})
 
+//Modelo para la coleccion tasks
 const TaskModel = model('tasks',taskSchema);
 
 module.exports = TaskModel;

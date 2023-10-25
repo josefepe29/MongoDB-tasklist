@@ -3,12 +3,12 @@ const router = express.Router();
 
 const TaskModel = require("../models/taskModel.js")
 
-//Middleware para validar metodos PUT y POST
+//Middleware para validar metodos POST
 
 router.use((req, res, next) => {
 
   if ((req.method === 'POST') && Object.keys(req.body).length == 0) {
-    // Cuerpo vacío en solicitudes POST y PUT
+    // Cuerpo vacío en solicitudes POST
     return res.status(400).json({ error: 'Cuerpo de solicitud vacío' });
   }
   next();
@@ -19,7 +19,6 @@ router.use((req, res, next) => {
 // Ruta para agregar una nueva tarea en la base de datos
 router.post('/tarea', async (req, res) => {
   const body = req.body;
-  console.log(body)
   try {
     const resultado = new TaskModel(body)
     const tarea = await resultado.save()
