@@ -5,7 +5,7 @@ const edicion = require('./Routes/list-edit-router');
 require('dotenv').config()
 const connectDB = require('./db.js')
 const login = require("./auth/login")
-const {validarCredenciales,validarMetodosHTTP} = require("./autenticacion")
+const {validarCredenciales,validarMetodosHTTP} = require("./auth/autenticacion")
 
 //Conexion a la base de datos
 connectDB()
