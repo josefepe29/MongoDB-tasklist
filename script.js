@@ -1,10 +1,9 @@
 const TaskModel = require("./models/taskModel.js")
-const CRUD = require("./CRUD.js")
 const tareas = [];
 
 //Funcion para listar todas las tareas
 async function listarTareas() {
-  const tarea = await TaskModel.find({})
+  const tarea = await TaskModel.find([])
   return tarea
 }
 //Funcion para obtener una sola tarea

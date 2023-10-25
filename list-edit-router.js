@@ -1,31 +1,28 @@
 const express = require('express');
 const router = express.Router();
 
-const listaTareas = require('./script')
-const tareas = listaTareas.tareas
+const TaskModel = require("./models/taskModel.js")
 
 //Middleware para validar metodos PUT y POST
 
 router.use((req, res, next) => {
-  const keys = Object.keys(req.body)
+
   if ((req.method === 'POST' || req.method === 'PUT') && Object.keys(req.body).length == 0) {
     // Cuerpo vacío en solicitudes POST y PUT
     return res.status(400).json({ error: 'Cuerpo de solicitud vacío' });
   }
-  // if (!Object.keys(req.body).includes('id') || !Object.keys(req.body).includes('descripcion')) {
-  //   return res.status(400).json({ error: 'Atributos faltantes' });
-  // }
   next();
 })
 
 
 
-// Ruta para agregar una nueva tarea
+// Ruta para agregar una nueva tarea en la base de datos
 router.post('/tarea', async (req, res) => {
   const body = req.body;
   console.log(body)
   try {
-    const tarea = await listaTareas.agregarTarea(body)
+    const resultado = new TaskModel(body)
+    const tarea = await resultado.save()
     
     res.json(tarea);
   } catch (error) {
@@ -34,7 +31,7 @@ router.post('/tarea', async (req, res) => {
     
 });
 
-// Ruta para marcar una tarea como completada
+// Ruta para marcar una tarea como completada en la base de datos
 router.put('/tarea/:id', async (req, res) => {
   const tareaId = req.params.id;
   const estado = req.body.estado
@@ -43,7 +40,7 @@ router.put('/tarea/:id', async (req, res) => {
   }
 
   try {
-    const tarea = await listaTareas.completarTarea(tareaId,estado)
+    const tarea = await TaskModel.findByIdAndUpdate({ _id: tareaId }, { estado: estado }, {new: true} )
     if (!tarea) {
         return res.status(404).json({ error: 'Tarea no encontrada' });
     } 
@@ -53,7 +50,7 @@ router.put('/tarea/:id', async (req, res) => {
   }
 });
 
-// Ruta para eliminar una tarea
+// Ruta para eliminar una tarea de la base de datos
 router.delete('/tarea/:id', async (req, res) => {
     const tareaId = req.params.id;
     
@@ -63,7 +60,7 @@ router.delete('/tarea/:id', async (req, res) => {
   
   
   try {
-    const tarea = await listaTareas.eliminarTarea(tareaId)
+    const tarea = await TaskModel.findByIdAndDelete({ _id: tareaId})
 
     if (!tarea) {
         return res.status(404).json({ error: 'Tarea no encontrada' });

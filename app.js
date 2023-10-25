@@ -3,7 +3,6 @@ const vista = require('./list-view-router');
 const app = express();
 const edicion = require('./list-edit-router');
 const jwt = require('jsonwebtoken')
-const usuarios = require('./usuarios.json')
 require('dotenv').config()
 const connectDB = require('./db.js')
 const UserModel = require('./models/userModel.js')
@@ -74,6 +73,7 @@ app.post("/login",  async (req, res) => {
     const token = jwt.sign({ usuario:user.usuario, contrasena:user.contrasena }, SECRET_KEY,{expiresIn:"1h"});
 
     res.json({ token });
+    
   } catch (error) {
     return res.status(500).json({ message: 'Error en el servidor' });
   }

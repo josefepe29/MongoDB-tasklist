@@ -1,4 +1,4 @@
-Mi proyecto es una aplicación de lista de tareas implementada con Node.js y Express. El objetivo principal es proporcionar a los usuarios una plataforma simple para gestionar sus tareas diarias, como agregar nuevas tareas, marcarlas como completadas y eliminarlas.
+Mi proyecto es una aplicación de lista de tareas implementada con Node.js, Express.js y MongoDB. El objetivo principal es proporcionar a los usuarios una plataforma simple para gestionar sus tareas diarias, como agregar nuevas tareas, marcarlas como completadas y eliminarlas.
 
 La comunicación entre el cliente y el servidor se realiza mediante solicitudes HTTP, y la información se intercambia en formato JSON.
 

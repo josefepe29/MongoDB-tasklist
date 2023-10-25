@@ -1,8 +1,7 @@
 const express = require('express');
 const router = express.Router();
 
-const listaTareas = require('./script');
-const tareas = listaTareas.tareas
+const TaskModel = require("./models/taskModel.js")
 
 //Ruta get para poder listar objetos por id
 
@@ -13,8 +12,7 @@ router.get('/listar/:id', async (req, res) => {
         return;
   }
   try {
-    const tarea = await listaTareas.obtenerTarea(tareaId)
-    console.log(tarea)
+    const tarea = await TaskModel.findById(id)
       if (!tarea) {
           res.status(404).json({ error: 'Tarea no encontrada' });
       } 
@@ -28,7 +26,7 @@ router.get('/listar/:id', async (req, res) => {
 
 router.get('/listar', async (req, res) => {
   try {
-    const tarea = await listaTareas.listarTareas()
+    const tarea = await TaskModel.find([])
 
     if (!tarea) {
       return res.status(401).json({ message: 'Tareas no encontradas' });
@@ -45,7 +43,7 @@ router.get('/listar', async (req, res) => {
 // Ruta para obtener todas las tareas completas
 router.get('/listar/a/completas', async (req, res) => {
   try {
-    const tareasCompletas = await listaTareas.listarTareasCompletas()
+    const tareasCompletas = await TaskModel.find({ estado: true })
     
     
     if (!tareasCompletas) {
@@ -62,7 +60,7 @@ router.get('/listar/a/completas', async (req, res) => {
 router.get('/listar/a/incompletas', async (req, res) => {
   
   try {
-    const tareasIncompletas = await listaTareas.listarTareasIncompletas()
+    const tareasIncompletas = await TaskModel.find({estado:false})
     
     
     
